@@ -1,0 +1,72 @@
+{% extends "auth_base.html" %}
+
+{% block title %}Sign Up | TinyURL{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">
+            Create Account
+        </h1>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <p class="text-red-500 text-sm">{{ form.username.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <p class="text-red-500 text-sm">{{ form.email.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <p class="text-red-500 text-sm">{{ form.password1.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Confirm Password -->
+            <div>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <p class="text-red-500 text-sm">{{ form.password2.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            {% if form.non_field_errors %}
+                <p class="text-red-500 text-sm text-center">
+                    {{ form.non_field_errors.0 }}
+                </p>
+            {% endif %}
+
+            <button
+                type="submit"
+                class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+            >
+                Sign Up
+            </button>
+        </form>
+
+        <p class="text-center text-gray-600 mt-4">
+            Already have an account?
+            <a href="{% url 'accounts:login' %}" class="text-blue-600 hover:underline">
+                Login
+            </a>
+        </p>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | TinyURL{% endblock %}
+
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-2xl font-bold text-gray-800">
+      Your Short Links
+    </h1>
+
+    <a href="{% url 'links:home' %}"
+       class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+      + Create New
+    </a>
+  </div>
+
+  <!-- Empty State -->
+  {% if not urls %}
+    <div class="bg-white rounded-lg shadow p-8 text-center">
+      <p class="text-gray-600 mb-4">
+        You haven't created any short links yet.
+      </p>
+      <a href="{% url 'links:home' %}"
+         class="text-blue-600 underline">
+        Create your first short link
+      </a>
+    </div>
+  {% else %}
+
+  <!-- Table -->
+  <div class="overflow-x-auto bg-white rounded-lg shadow">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+            Short URL
+          </th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+            Clicks
+          </th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+            Actions
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-100">
+        {% for url in urls %}
+          <tr class="hover:bg-gray-50 transition">
+
+            <!-- Short URL -->
+            <td class="px-6 py-4">
+              <a href="{{ url.full_url }}"
+                 target="_blank"
+                 class="text-blue-600 hover:underline break-all">
+                {{ url.full_url }}
+              </a>
+
+              <p class="text-sm text-gray-400 truncate">
+                {{ url.original_url }}
+              </p>
+            </td>
+
+            <!-- Clicks -->
+            <td class="px-6 py-4 text-gray-700 font-medium">
+              {{ url.total_clicks }}
+            </td>
+
+            <!-- Actions -->
+            <td class="px-6 py-4">
+              <a href="{% url 'links:analytics' url.id %}"
+                 class="text-sm text-indigo-600 hover:underline">
+                View Analytics →
+              </a>
+            </td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% endif %}
+</div>
+
+{% endblock %}

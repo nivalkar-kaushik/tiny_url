@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics | TinyURL{% endblock %}
+
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-800">
+      Analytics for {{ short_url.code }}
+    </h1>
+
+    <a href="{{ short_url.full_url }}"
+       class="text-blue-600 underline break-all"
+       target="_blank">
+      {{ short_url.full_url }}
+    </a>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+
+    <div class="bg-white p-6 rounded-lg shadow">
+      <p class="text-gray-500 text-sm">Total Clicks</p>
+      <p class="text-3xl font-bold text-gray-800">
+        {{ total_clicks }}
+      </p>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+      <p class="text-gray-500 text-sm">Devices</p>
+      {% for d in device_stats %}
+        <p class="text-gray-700">
+          {{ d.device_type }}: {{ d.count }}
+        </p>
+      {% empty %}
+        <p class="text-gray-400 text-sm">No data</p>
+      {% endfor %}
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+      <p class="text-gray-500 text-sm">Browsers</p>
+      {% for b in browser_stats %}
+        <p class="text-gray-700">
+          {{ b.browser }}: {{ b.count }}
+        </p>
+      {% empty %}
+        <p class="text-gray-400 text-sm">No data</p>
+      {% endfor %}
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+      <p class="text-gray-500 text-sm">Operating Systems</p>
+      {% for o in os_stats %}
+        <p class="text-gray-700">
+          {{ o.os }}: {{ o.count }}
+        </p>
+      {% empty %}
+        <p class="text-gray-400 text-sm">No data</p>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- Recent Clicks -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b">
+      <h2 class="text-lg font-semibold text-gray-700">
+        Recent Clicks
+      </h2>
+    </div>
+
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+            IP
+          </th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+            Device
+          </th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+            Browser
+          </th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+            OS
+          </th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+            Time
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-100">
+        {% for click in recent_clicks %}
+          <tr>
+            <td class="px-6 py-4 text-sm text-gray-700">
+              {{ click.ip_address }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-700">
+              {{ click.device_type }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-700">
+              {{ click.browser }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-700">
+              {{ click.os }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500">
+              {{ click.created_at|date:"M d, Y H:i" }}
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5" class="text-center text-gray-400 py-6">
+              No clicks yet
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}
