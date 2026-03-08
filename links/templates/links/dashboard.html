@@ -54,12 +54,18 @@
 
             <!-- Short URL -->
             <td class="px-6 py-4">
-              <a href="{{ url.full_url }}"
-                 target="_blank"
-                 class="text-blue-600 hover:underline break-all">
-                {{ url.full_url }}
-              </a>
-
+              <div class="flex items-center gap-2 mb-1">
+                <a href="{{ url.full_url }}"
+                   target="_blank"
+                   class="text-blue-600 hover:underline break-all">
+                  {{ url.full_url }}
+                </a>
+                {% if url.is_active %}
+                  <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full whitespace-nowrap">Active</span>
+                {% else %}
+                  <span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full whitespace-nowrap">Inactive</span>
+                {% endif %}
+              </div>
               <p class="text-sm text-gray-400 truncate">
                 {{ url.original_url }}
               </p>
@@ -72,10 +78,26 @@
 
             <!-- Actions -->
             <td class="px-6 py-4">
-              <a href="{% url 'links:analytics' url.id %}"
-                 class="text-sm text-indigo-600 hover:underline">
-                View Analytics →
-              </a>
+              <div class="flex items-center gap-4 flex-wrap">
+                <a href="{% url 'links:analytics' url.id %}"
+                   class="text-sm text-indigo-600 hover:underline">
+                  Analytics →
+                </a>
+                <form method="post" action="{% url 'links:toggle_url' url.id %}">
+                  {% csrf_token %}
+                  <button type="submit"
+                          class="text-sm {% if url.is_active %}text-yellow-600{% else %}text-green-600{% endif %} hover:underline">
+                    {% if url.is_active %}Deactivate{% else %}Activate{% endif %}
+                  </button>
+                </form>
+                <form method="post" action="{% url 'links:delete_url' url.id %}"
+                      onsubmit="return confirm('Delete this link? This cannot be undone.')">
+                  {% csrf_token %}
+                  <button type="submit" class="text-sm text-red-500 hover:underline">
+                    Delete
+                  </button>
+                </form>
+              </div>
             </td>
 
           </tr>

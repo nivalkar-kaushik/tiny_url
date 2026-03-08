@@ -118,3 +118,18 @@ def shorturl_analytics(request, pk):
         "links/analytics.html",
         context
     )
+
+@login_required
+def toggle_url(request, pk):
+    if request.method == "POST":
+        short_url = get_object_or_404(ShortURL, id=pk, user=request.user)
+        short_url.is_active = not short_url.is_active
+        short_url.save()
+    return redirect("links:dashboard")
+
+@login_required
+def delete_url(request, pk):
+    if request.method == "POST":
+        short_url = get_object_or_404(ShortURL, id=pk, user=request.user)
+        short_url.delete()
+    return redirect("links:dashboard")
