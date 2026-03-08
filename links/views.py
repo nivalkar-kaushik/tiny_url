@@ -1,8 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.shortcuts import get_object_or_404, redirect
-
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from ipware import get_client_ip
 from user_agents import parse
 from .models import ShortURL, ClickAnalytics
@@ -87,8 +85,11 @@ def dashboard(request):
     for u in urls:
         u.full_url = request.build_absolute_uri(u.get_absolute_url())
 
+    paginator = Paginator(urls, 10)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
     return render(request, "links/dashboard.html", {
-        "urls": urls
+        "page_obj": page_obj,
     })
 
 @login_required
@@ -100,6 +101,8 @@ def shorturl_analytics(request, pk):
     )
 
     clicks = short_url.clicks.all()
+    clicks_paginator = Paginator(clicks.order_by("-created_at"), 20)
+    clicks_page = clicks_paginator.get_page(request.GET.get("page"))
 
     context = {
         "short_url": short_url,
@@ -107,7 +110,7 @@ def shorturl_analytics(request, pk):
         "device_stats": clicks.values("device_type").annotate(count=models.Count("id")),
         "browser_stats": clicks.values("browser").annotate(count=models.Count("id")),
         "os_stats": clicks.values("os").annotate(count=models.Count("id")),
-        "recent_clicks": clicks.order_by("-created_at")[:10],
+        "clicks_page": clicks_page,
     }
 
     return render(

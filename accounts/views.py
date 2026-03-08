@@ -5,17 +5,19 @@ from .models import User, EmailOTP
 import random
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.conf import settings
 
 
-# Create your views here.
 def send_email_otp(user):
     code = str(random.randint(100000, 999999))
-    otp = EmailOTP.objects.create(
-        user = user,
-        otp = code
+    EmailOTP.objects.create(user=user, otp=code)
+    send_mail(
+        subject="Your TinyURL OTP",
+        message=f"Your OTP is: {code}\n\nThis code expires in 24 hours.",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[user.email],
     )
-    # TODO: send otp to user email
-    print("--------------------------otp", otp.otp)
     
 def signup_view(request):
     if request.method == "POST":
@@ -69,6 +71,14 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("accounts:login")
+
+def resend_otp_view(request):
+    user_id = request.session.get("verified_user_id")
+    if not user_id:
+        return redirect("accounts:login")
+    user = User.objects.get(id=user_id)
+    send_email_otp(user)
+    return redirect("accounts:verify_otp")
 
 @login_required
 def dashboard_view(request):

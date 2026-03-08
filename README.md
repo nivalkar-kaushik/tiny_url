@@ -121,3 +121,52 @@ python manage.py runserver
     - Developer documentation
     - Analytics interpretation guide
 
+
+
+
+
+
+
+Improvements (Fix/Enhance Existing)
+High Priority
+Email OTP sending — currently only prints to console; needs actual email sending via SMTP
+OTP resend button — UI exists but functionality is not implemented
+Copy-to-clipboard — no button to copy the generated short URL
+
+Admin registration — models not registered in Django admin panel
+
+Empty test files — both links/tests.py and accounts/tests.py are completely empty
+
+Medium Priority
+
+
+Pagination — dashboard and analytics have no pagination (will break with large data)
+
+Delete/Deactivate URL — users can't delete or disable their short URLs
+Analytics charts — currently just plain text counts; no visual charts
+Click trends — daily/weekly/monthly breakdown instead of just total clicks
+Environment variables — secret key, debug flag, DB settings exposed in settings.py
+Low Priority
+Error handling UX — better error messages across forms
+ALLOWED_HOSTS — empty in settings (will fail in production)
+Optimize analytics queries — raw queries not aggregated efficiently for scale
+New Features to Add
+Core URL Features
+Custom alias — let users choose their own short code (e.g. /my-link)
+URL expiration — set an expiry date after which link stops working
+Password-protected links — require a password to access redirect
+Link activation toggle — enable/disable a link without deleting it
+Analytics Enhancements
+Geographic tracking — country field exists but unused; integrate IP-to-country lookup
+Referrer tracking — track where clicks are coming from (Google, Twitter, etc.)
+Click timeline chart — bar/line chart of clicks over time
+Unique vs. total clicks — distinguish repeat visits from unique visitors
+User Experience
+QR code generation — generate a QR code for each short URL
+Bulk URL shortening — shorten multiple URLs at once
+API endpoints — REST API so developers can integrate programmatically
+Dark mode — UI toggle
+Security
+Rate limiting — prevent abuse on /create/ and redirect endpoints
+Malicious URL detection — check URLs against a blocklist (Google Safe Browsing API)
+CAPTCHA for anonymous users — prevent bot abuse

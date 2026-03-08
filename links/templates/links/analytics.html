@@ -64,63 +64,64 @@
 
   </div>
 
-  <!-- Recent Clicks -->
+  <!-- Clicks Table -->
   <div class="bg-white rounded-lg shadow overflow-hidden">
-    <div class="px-6 py-4 border-b">
-      <h2 class="text-lg font-semibold text-gray-700">
-        Recent Clicks
-      </h2>
+    <div class="px-6 py-4 border-b flex justify-between items-center">
+      <h2 class="text-lg font-semibold text-gray-700">Click History</h2>
+      {% if clicks_page.paginator.num_pages > 1 %}
+        <p class="text-sm text-gray-500">
+          Page {{ clicks_page.number }} of {{ clicks_page.paginator.num_pages }}
+        </p>
+      {% endif %}
     </div>
 
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
-          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-            IP
-          </th>
-          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-            Device
-          </th>
-          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-            Browser
-          </th>
-          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-            OS
-          </th>
-          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-            Time
-          </th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">IP</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Device</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Browser</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">OS</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Time</th>
         </tr>
       </thead>
 
       <tbody class="divide-y divide-gray-100">
-        {% for click in recent_clicks %}
+        {% for click in clicks_page %}
           <tr>
-            <td class="px-6 py-4 text-sm text-gray-700">
-              {{ click.ip_address }}
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-700">
-              {{ click.device_type }}
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-700">
-              {{ click.browser }}
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-700">
-              {{ click.os }}
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-500">
-              {{ click.created_at|date:"M d, Y H:i" }}
-            </td>
+            <td class="px-6 py-4 text-sm text-gray-700">{{ click.ip_address }}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">{{ click.device_type }}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">{{ click.browser }}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">{{ click.os }}</td>
+            <td class="px-6 py-4 text-sm text-gray-500">{{ click.created_at|date:"M d, Y H:i" }}</td>
           </tr>
         {% empty %}
           <tr>
-            <td colspan="5" class="text-center text-gray-400 py-6">
-              No clicks yet
-            </td>
+            <td colspan="5" class="text-center text-gray-400 py-6">No clicks yet</td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
+
+    <!-- Pagination -->
+    {% if clicks_page.paginator.num_pages > 1 %}
+    <div class="flex items-center justify-between px-6 py-4 border-t">
+      <div class="flex gap-2">
+        {% if clicks_page.has_previous %}
+          <a href="?page={{ clicks_page.previous_page_number }}"
+             class="px-4 py-2 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+            ← Previous
+          </a>
+        {% endif %}
+        {% if clicks_page.has_next %}
+          <a href="?page={{ clicks_page.next_page_number }}"
+             class="px-4 py-2 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+            Next →
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
   </div>
 
 </div>
