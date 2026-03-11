@@ -43,6 +43,9 @@
             Clicks
           </th>
           <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+            Expires
+          </th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">
             Actions
           </th>
         </tr>
@@ -54,7 +57,7 @@
 
             <!-- Short URL -->
             <td class="px-6 py-4">
-              <div class="flex items-center gap-2 mb-1">
+              <div class="flex items-center gap-2 mb-1 flex-wrap">
                 <a href="{{ url.full_url }}"
                    target="_blank"
                    class="text-blue-600 hover:underline break-all">
@@ -65,6 +68,9 @@
                 {% else %}
                   <span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full whitespace-nowrap">Inactive</span>
                 {% endif %}
+                {% if url.link_password %}
+                  <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full whitespace-nowrap">🔒 Protected</span>
+                {% endif %}
               </div>
               <p class="text-sm text-gray-400 truncate">
                 {{ url.original_url }}
@@ -74,6 +80,15 @@
             <!-- Clicks -->
             <td class="px-6 py-4 text-gray-700 font-medium">
               {{ url.total_clicks }}
+            </td>
+
+            <!-- Expires -->
+            <td class="px-6 py-4 text-sm text-gray-600">
+              {% if url.expires_at %}
+                {{ url.expires_at|date:"M d, Y" }}
+              {% else %}
+                <span class="text-gray-400">Never</span>
+              {% endif %}
             </td>
 
             <!-- Actions -->

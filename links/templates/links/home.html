@@ -20,24 +20,68 @@
             hx-post="{% url 'links:create_short_url' %}"
             hx-target="#short-url-result"
             hx-swap="innerHTML"
-            class="flex flex-col sm:flex-row gap-4 justify-center"
+            hx-on::after-request="if(typeof grecaptcha!=='undefined'){try{grecaptcha.reset()}catch(e){}}"
+            class="flex flex-col gap-3 items-center"
         >
             {% csrf_token %}
 
-            <input
-                type="url"
-                name="original_url"
-                placeholder="Paste your long URL here..."
-                class="w-full sm:w-2/3 px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-            >
+            <!-- Long URL input -->
+            <div class="flex flex-col sm:flex-row gap-3 w-full justify-center">
+                <input
+                    type="url"
+                    name="original_url"
+                    placeholder="Paste your long URL here..."
+                    class="w-full sm:w-2/3 px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                >
+                <button
+                    type="submit"
+                    class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700"
+                >
+                    Shorten
+                </button>
+            </div>
 
-            <button
-                type="submit"
-                class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700"
-            >
-                Shorten
-            </button>
+            <!-- Custom alias (optional, logged-in users) -->
+            <div class="flex items-center gap-2 w-full sm:w-2/3">
+                <span class="text-sm text-gray-400 whitespace-nowrap">yourdomain.com/</span>
+                <input
+                    type="text"
+                    name="custom_alias"
+                    placeholder="custom-alias (optional)"
+                    maxlength="10"
+                    class="flex-1 px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+            </div>
+
+            <!-- Expiry date (optional) -->
+            <div class="flex items-center gap-2 w-full sm:w-2/3">
+                <label class="text-sm text-gray-400 whitespace-nowrap">Expires on</label>
+                <input
+                    type="date"
+                    name="expires_at"
+                    class="flex-1 px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+            </div>
+
+            <!-- Link password (optional) -->
+            <div class="flex items-center gap-2 w-full sm:w-2/3">
+                <label class="text-sm text-gray-400 whitespace-nowrap">Link password</label>
+                <input
+                    type="password"
+                    name="link_password"
+                    placeholder="optional password to protect this link"
+                    class="flex-1 px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+            </div>
+
+            <!-- reCAPTCHA (anonymous users only) -->
+            {% if not request.user.is_authenticated %}
+            <div class="flex justify-center w-full sm:w-2/3">
+                <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_PUBLIC_KEY }}"></div>
+            </div>
+            {% endif %}
+
         </form>
         <!-- RESULT AREA -->
         <div id="short-url-result" class="mt-6"></div>
@@ -69,5 +113,9 @@
     </div>
 
 </section>
+
+{% if not request.user.is_authenticated %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endif %}
 
 {% endblock %}

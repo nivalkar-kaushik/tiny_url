@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Too Many Requests | TinyURL{% endblock %}
+
+{% block content %}
+<div class="min-h-[60vh] flex items-center justify-center">
+  <div class="text-center px-4">
+    <div class="text-6xl mb-6">🚦</div>
+    <h1 class="text-3xl font-bold text-gray-800 mb-3">Slow Down</h1>
+    <p class="text-gray-500 mb-8">
+      You're making too many requests. Please wait a moment and try again.
+    </p>
+    <a href="{% url 'links:home' %}"
+       class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">
+      Back to Home
+    </a>
+  </div>
+</div>
+{% endblock %}

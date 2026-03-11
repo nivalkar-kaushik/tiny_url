@@ -21,6 +21,8 @@ class ShortURL(models.Model):
     original_url = models.URLField()
     code = models.CharField(max_length=10, unique=True, db_index=True)
     is_active = models.BooleanField(default=True)
+    expires_at = models.DateTimeField(null=True, blank=True)
+    link_password = models.CharField(max_length=128, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     

@@ -137,20 +137,25 @@ Admin registration — models not registered in Django admin panel
 
 Empty test files — both links/tests.py and accounts/tests.py are completely empty
 
+
 Medium Priority
 
-
 Pagination — dashboard and analytics have no pagination (will break with large data)
-
 Delete/Deactivate URL — users can't delete or disable their short URLs
 Analytics charts — currently just plain text counts; no visual charts
 Click trends — daily/weekly/monthly breakdown instead of just total clicks
 Environment variables — secret key, debug flag, DB settings exposed in settings.py
+
+
 Low Priority
+
 Error handling UX — better error messages across forms
 ALLOWED_HOSTS — empty in settings (will fail in production)
 Optimize analytics queries — raw queries not aggregated efficiently for scale
+
+
 New Features to Add
+
 Core URL Features
 Custom alias — let users choose their own short code (e.g. /my-link)
 URL expiration — set an expiry date after which link stops working

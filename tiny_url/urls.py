@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+handler403 = 'links.views.rate_limited_view'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/',include("accounts.urls")),
