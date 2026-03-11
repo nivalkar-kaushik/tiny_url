@@ -12,7 +12,13 @@ def home(request):
 
 
 def create_short_url(request):
-    original_url = request.POST.get("original_url")
+    original_url = request.POST.get("original_url", "").strip()
+
+    if not original_url:
+        return render(request, "links/error.html", {"error": "Please enter a URL."})
+
+    if not original_url.startswith(("http://", "https://")):
+        return render(request, "links/error.html", {"error": "Please enter a valid URL starting with http:// or https://"})
 
     if request.user.is_authenticated:
         # Logged-in user: ignore session

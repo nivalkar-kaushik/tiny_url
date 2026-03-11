@@ -71,13 +71,15 @@ class RegistrationForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(attrs={
-            "class": "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            "class": "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+            "placeholder": "Username",
         })
     )
 
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            "class": "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            "class": "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+            "placeholder": "Password",
         })
     )
 
@@ -91,7 +93,7 @@ class LoginForm(forms.Form):
             raise forms.ValidationError("Invalid credentials")
 
         if not user.is_verified:
-            raise forms.ValidationError("Email not verified")
+            raise forms.ValidationError("Your email is not verified. Please check your inbox for the OTP email sent during signup.")
 
         self.user = user
         return cleaned_data

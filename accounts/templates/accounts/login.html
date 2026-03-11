@@ -22,19 +22,23 @@
 
             <!-- Username -->
             <div>
-                <label class="block text-gray-700 mb-1">Username</label>
-                {{ form.username }}
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="id_username">Username</label>
+                <div class="{% if form.username.errors %}ring-2 ring-red-400 rounded-md{% endif %}">
+                    {{ form.username }}
+                </div>
                 {% if form.username.errors %}
-                    <p class="text-red-500 text-sm">{{ form.username.errors.0 }}</p>
+                    <p class="text-red-500 text-sm mt-1">{{ form.username.errors.0 }}</p>
                 {% endif %}
             </div>
 
             <!-- Password -->
             <div>
-                <label class="block text-gray-700 mb-1">Password</label>
-                {{ form.password }}
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="id_password">Password</label>
+                <div class="{% if form.password.errors %}ring-2 ring-red-400 rounded-md{% endif %}">
+                    {{ form.password }}
+                </div>
                 {% if form.password.errors %}
-                    <p class="text-red-500 text-sm">{{ form.password.errors.0 }}</p>
+                    <p class="text-red-500 text-sm mt-1">{{ form.password.errors.0 }}</p>
                 {% endif %}
             </div>
 

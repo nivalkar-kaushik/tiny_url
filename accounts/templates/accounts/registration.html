@@ -16,40 +16,52 @@
 
             <!-- Username -->
             <div>
-                {{ form.username }}
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="id_username">Username</label>
+                <div class="{% if form.username.errors %}ring-2 ring-red-400 rounded-md{% endif %}">
+                    {{ form.username }}
+                </div>
                 {% if form.username.errors %}
-                    <p class="text-red-500 text-sm">{{ form.username.errors.0 }}</p>
+                    <p class="text-red-500 text-sm mt-1">{{ form.username.errors.0 }}</p>
                 {% endif %}
             </div>
 
             <!-- Email -->
             <div>
-                {{ form.email }}
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="id_email">Email</label>
+                <div class="{% if form.email.errors %}ring-2 ring-red-400 rounded-md{% endif %}">
+                    {{ form.email }}
+                </div>
                 {% if form.email.errors %}
-                    <p class="text-red-500 text-sm">{{ form.email.errors.0 }}</p>
+                    <p class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
                 {% endif %}
             </div>
 
             <!-- Password -->
             <div>
-                {{ form.password1 }}
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="id_password1">Password</label>
+                <div class="{% if form.password1.errors %}ring-2 ring-red-400 rounded-md{% endif %}">
+                    {{ form.password1 }}
+                </div>
                 {% if form.password1.errors %}
-                    <p class="text-red-500 text-sm">{{ form.password1.errors.0 }}</p>
+                    <p class="text-red-500 text-sm mt-1">{{ form.password1.errors.0 }}</p>
                 {% endif %}
             </div>
 
             <!-- Confirm Password -->
             <div>
-                {{ form.password2 }}
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="id_password2">Confirm Password</label>
+                <div class="{% if form.password2.errors %}ring-2 ring-red-400 rounded-md{% endif %}">
+                    {{ form.password2 }}
+                </div>
                 {% if form.password2.errors %}
-                    <p class="text-red-500 text-sm">{{ form.password2.errors.0 }}</p>
+                    <p class="text-red-500 text-sm mt-1">{{ form.password2.errors.0 }}</p>
                 {% endif %}
             </div>
 
             {% if form.non_field_errors %}
-                <p class="text-red-500 text-sm text-center">
+                <div class="bg-red-100 text-red-700 p-3 rounded-md text-sm">
                     {{ form.non_field_errors.0 }}
-                </p>
+                </div>
             {% endif %}
 
             <button
