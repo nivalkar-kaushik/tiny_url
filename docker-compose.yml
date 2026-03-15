@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount the db.sqlite3 file so your database persists when the container restarts
+      - ./db.sqlite3:/app/db.sqlite3
+      # Mount staticfiles folder so collected static files are accessible
+      - ./staticfiles:/app/staticfiles
+    env_file:
+      - .env

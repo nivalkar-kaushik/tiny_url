@@ -1,0 +1,25 @@
+# .dockerignore
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Don't copy venv — Docker installs packages itself via requirements.txt
+venv/
+.venv/
+env/
+
+# Don't bake credentials into the image
+.env
+
+# Don't copy the dev database — let the container create a fresh one
+db.sqlite3
+
+# Don't copy git history — it's irrelevant in a container
+.git
+.gitignore
+
+# Editor/OS noise
+.DS_Store
+.idea/
+*.swp
